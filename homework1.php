@@ -15,6 +15,7 @@
 	$phoneNumberError = "";
 	
 	$signupEmail = "";
+	$gender = "";
 	
 	if (isset ($_POST["loginEmail"]) ){
 		if (empty ($_POST["loginEmail"]) ){
@@ -71,7 +72,6 @@
 		}
 	}
 	
-	$gender = "";
 	if (isset ($_POST["gender"]) ){ 
 		if (empty ($_POST["gender"]) ){ 
 			$genderError = "";
