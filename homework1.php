@@ -1,9 +1,11 @@
 <?php
 	
+	//var_dump - näitab kõike, mis muutuja sees
 	//var_dump($_GET);
 	//echo "<br>";
 	//var_dump($_POST);
 	
+	//MUUTUJAD
 	$loginEmailError = "";
 	$loginPasswordError = "";
 	$firstNameError = "";
@@ -11,6 +13,8 @@
 	$signupEmailError = "";
 	$signupPasswordError = "";
 	$phoneNumberError = "";
+	
+	$signupEmail = "";
 	
 	if (isset ($_POST["loginEmail"]) ){
 		if (empty ($_POST["loginEmail"]) ){
@@ -50,6 +54,9 @@
 		if (empty ($_POST["signupEmail"]) ){ //oli email, kuid see oli tühi
 			//echo "email oli tühi";
 			$signupEmailError = "See väli on kohustuslik!";		
+		} else {
+			//email on õige, salvestan väärtuse muutujasse
+			$signupEmail = $_POST["signupEmail"];
 		}
 	}
 	
@@ -64,6 +71,14 @@
 		}
 	}
 	
+	$gender = "";
+	if (isset ($_POST["gender"]) ){ 
+		if (empty ($_POST["gender"]) ){ 
+			$genderError = "";
+		} else {
+			$gender = $_POST["gender"];
+		}
+	}
 	
 	if (isset ($_POST["phoneNumber"]) ){
 		if (empty ($_POST["phoneNumber"]) ){ 
@@ -112,7 +127,7 @@
 		
 			<label>E-Post</label>
 			<br>
-			<input name="signupEmail" type="email"> <?php echo $signupEmailError; ?>
+			<input name="signupEmail" type="email" value="<?php echo $signupEmail; ?>"> <?php echo $signupEmailError; ?> <!--jätab signupEmaili meelde väljale-->
 			<br><br>
 			
 			<label>Parool</label>
@@ -120,9 +135,19 @@
 			<input name="signupPassword" type="password"> <?php echo $signupPasswordError; ?>
 			<br><br>
 			
+			
 			<label>Sugu:</label> <!--Jätan vabatahtlikuks väljaks-->
+			<?php if($gender == "female") { ?>
+			<input type="radio" name="gender" value="female" checked>Naine
+			<?php } else { ?>
 			<input type="radio" name="gender" value="female">Naine
+			<?php } ?>
+			
+			<?php if($gender == "male") { ?>
+			<input type="radio" name="gender" value="male" checked>Mees
+			<?php } else { ?>
 			<input type="radio" name="gender" value="male">Mees
+			<?php } ?>
 			<br><br>
 			
 			<label>Telefoni number</label> <!--Jätan vabatahtlikuks väljaks-->
