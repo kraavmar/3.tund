@@ -1,4 +1,6 @@
 <?php
+	//võtab ja kopeerib faili sisu
+	require("../../config.php");
 	
 	//var_dump - näitab kõike, mis muutuja sees
 	//var_dump($_GET);
@@ -89,6 +91,43 @@
 			} else {
 				$phoneNumberError = "Ainult numbrid on lubatud!";
 			}
+		}
+	}
+	
+	//Kus tean, et ühtegi viga ei olnud ja saan kasutaja andmed salvestada.
+	if (isset ($_POST["signupPassword"])
+		&& isset($_POST["signupEmail"])
+		&& empty($signupEmailError) 
+		&& empty($signupPasswordError) ){
+			
+		echo "Salvestan...<br>";
+		echo "email ".$signupEmail."<br>";
+		
+		$password = hash("sha512", $_POST["signupPassword"]); //hash(algoritm,parool)
+		echo "parool ".$_POST["signupPassword"]."<br>";
+		echo "räsi".$password."<br>";
+		
+		//echo $serverPassword;
+		
+		$database = "if16_marikraav";
+		$mysqli = new mysqli($serverHost, $serverUsername, $serverPassword, $database);
+		
+		//käsk
+		$stmt = $mysqli->prepare("INSERT INTO user_sample(email, password) VALUES(?,?)"); //stmt- statement, prepare'i sisse mysqli lause
+		//INSERT jms ei pea suurega olema, aga lihtsustab arusaamist, kus on sqli pool ja kus see, mis sina kirjutasid
+		echo $mysqli->error; //näitab kui viga andmebaasi sisestamisel, muidu ei näita midagi
+		
+		//asendan küsimärgii väärtustega
+		//iga muutuja kohta 1 täht, mis tüüpi muutuja on
+		//s-string (nt ka date ja boolean on string) (kõik muud arvud va 2 alumist)
+		//i-integer (kõik täisarvud)
+		//d-double/float (kõik komakohaga arvud)
+		$stmt->bind_param("ss", $signupEmail, $password); //password- räsi, bind_param asendab muutujaid
+		
+		if($stmt->execute()) { //if'iga vaatame, kas salvestamine andmebaasi õnnestus
+			echo "salvestamine õnnestus";
+		} else {
+			echo "ERROR".$stmt->error;
 		}
 	}
 
