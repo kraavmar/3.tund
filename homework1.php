@@ -166,7 +166,7 @@
 		
 			<label>E-Post</label>
 			<br>
-			<input name="signupEmail" type="email" value="<?php echo $signupEmail; ?>"> <?php echo $signupEmailError; ?> <!--jätab signupEmaili meelde väljale-->
+			<input name="signupEmail" type="email" value= "<?=$signupEmail;?>" > <?php echo $signupEmailError; ?> <!--jätab signupEmaili meelde väljale-->
 			<br><br>
 			
 			<label>Parool</label>
